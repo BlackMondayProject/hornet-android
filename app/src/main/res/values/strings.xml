@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Hornet</string>
+    <string name="activityLogin_loginHint">Nazwa użytkownika</string>
+    <string name="activityLogin_passwordHint">Hasło</string>
+    <string name="activityLogin_done">Zaloguj się</string>
+</resources>
