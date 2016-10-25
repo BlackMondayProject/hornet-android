@@ -1,7 +1,7 @@
-package pl.blackmonday.hornet.presenters;
+package pl.blackmonday.hornet.test.presenters;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -10,6 +10,7 @@ import pl.blackmonday.hornet.domain.api.IApi;
 import pl.blackmonday.hornet.ui.navigation.Navigator;
 import pl.blackmonday.hornet.ui.screens.home.HomePresenter;
 import pl.blackmonday.hornet.ui.screens.home.HomeUi;
+import pl.blackmonday.hornet.test.utils.RxTestRule;
 import rx.Observable;
 
 import static org.mockito.Mockito.verify;
@@ -23,6 +24,9 @@ import static org.mockito.Mockito.when;
 
 public class HomePresenterTest {
 
+    @Rule
+    public RxTestRule _rule = new RxTestRule();
+
     @Mock
     HomeUi ui;
     @Mock
@@ -30,18 +34,12 @@ public class HomePresenterTest {
     @Mock
     IApi api;
 
-    HomePresenter presenter;
+    private HomePresenter presenter;
 
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        RxUtils.setUp();
         presenter = new HomePresenter(ui, navigator, api);
-    }
-
-    @After
-    public void tearDown() {
-        RxUtils.tearDown();
     }
 
     @Test

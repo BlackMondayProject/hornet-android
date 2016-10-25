@@ -25,20 +25,16 @@ public class HomeInteractor extends BaseInteractor<HomePresenter> {
 
     public void syncData(DoneCallback<List<Bug>> done, ErrorCallback error, AlwaysCallback always) {
         api.getProjects()
-                .toList()
                 .doOnNext(onUi(presenter::setProjects))
-                .flatMapIterable(projects -> projects)
-                .first()
+                .map(projects -> projects.get(0))
                 .doOnNext(onUi(presenter::setSelectedProject))
                 .flatMap(project -> api.getBugs(project.getId()))
-                .toList()
                 .subscribe(onUi(done, error, always));
     }
 
     public void getBugs(DoneCallback<List<Bug>> done, ErrorCallback error, AlwaysCallback always) {
         getSelectedProject()
                 .flatMap(project -> api.getBugs(project.getId()))
-                .toList()
                 .subscribe(onUi(done, error, always));
     }
 
@@ -47,7 +43,8 @@ public class HomeInteractor extends BaseInteractor<HomePresenter> {
         if (project != null) {
             return Observable.just(project);
         } else {
-            return api.getProjects().first();
+            return api.getProjects()
+                    .map(projects -> projects.get(0));
         }
     }
 

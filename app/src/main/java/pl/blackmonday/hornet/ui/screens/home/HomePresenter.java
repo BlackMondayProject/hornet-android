@@ -27,6 +27,10 @@ public class HomePresenter
     @Override
     public void onCreate() {
         super.onCreate();
+        syncData();
+    }
+
+    private void syncData() {
         ui.showProgress();
         interactor.syncData(
                 this::setBugs,
@@ -40,7 +44,6 @@ public class HomePresenter
 
     public void onProjectClicked(Project project) {
         setSelectedProject(project);
-
         ui.showProgress();
         interactor.getBugs(
                 this::setBugs,

@@ -1,4 +1,4 @@
-package pl.blackmonday.hornet.presenters;
+package pl.blackmonday.hornet.test.utils;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;

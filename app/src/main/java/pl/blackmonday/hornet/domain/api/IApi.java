@@ -1,5 +1,7 @@
 package pl.blackmonday.hornet.domain.api;
 
+import java.util.List;
+
 import pl.blackmonday.hornet.model.bug.Bug;
 import pl.blackmonday.hornet.model.project.Project;
 import rx.Observable;
@@ -13,11 +15,11 @@ public interface IApi {
 
     Observable<Void> authorize(String login, String password);
 
-    Observable<Bug> getBugs(long projectId);
+    Observable<List<Bug>> getBugs(long projectId);
 
     Observable<Void> refreshSession();
 
-    Observable<Project> getProjects();
+    Observable<List<Project>> getProjects();
 
     Observable<Project> getProject(long projectId);
 }

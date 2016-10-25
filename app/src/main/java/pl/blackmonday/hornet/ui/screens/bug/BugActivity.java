@@ -54,6 +54,10 @@ public class BugActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setToolbar();
+    }
+
+    private void setToolbar() {
         vToolbar.setNavigationIcon(R.drawable.ic_back);
         vToolbar.setNavigationOnClickListener(v -> onNavigateUp());
     }

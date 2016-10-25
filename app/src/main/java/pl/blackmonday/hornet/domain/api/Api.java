@@ -1,5 +1,7 @@
 package pl.blackmonday.hornet.domain.api;
 
+import java.util.List;
+
 import pl.blackmonday.hornet.api.IServer;
 import pl.blackmonday.hornet.domain.api.parsing.DataParser;
 import pl.blackmonday.hornet.model.bug.Bug;
@@ -31,12 +33,13 @@ public class Api implements IApi {
     }
 
     @Override
-    public Observable<Bug> getBugs(long projectId) {
+    public Observable<List<Bug>> getBugs(long projectId) {
         return server.getBugs(projectId)
                 .flatMap(Observable::from)
                 .map(bugModel -> parser.parse(bugModel))
                 .sorted((bug1, bug2) ->
-                        bug2.getCreationDate().compareTo(bug1.getCreationDate()));
+                        bug2.getCreationDate().compareTo(bug1.getCreationDate()))
+                .toList();
     }
 
     @Override
@@ -45,10 +48,11 @@ public class Api implements IApi {
     }
 
     @Override
-    public Observable<Project> getProjects() {
+    public Observable<List<Project>> getProjects() {
         return server.getProjects()
                 .flatMap(Observable::from)
-                .map(projectModel -> parser.parse(projectModel));
+                .map(projectModel -> parser.parse(projectModel))
+                .toList();
     }
 
     @Override

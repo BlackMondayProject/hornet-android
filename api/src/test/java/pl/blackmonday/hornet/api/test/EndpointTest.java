@@ -34,7 +34,7 @@ public class EndpointTest {
                 .flatMap(Observable::from)
                 .subscribe(testObserver);
 
-        testObserver.assertValueCount(4);
+        testObserver.assertValueCount(0);
     }
 
 }
