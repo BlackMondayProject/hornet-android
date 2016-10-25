@@ -19,19 +19,19 @@ public class DataParser {
         core = new DataParserCore();
     }
 
-    public Bug parse(BugModel bugModel) {
+    public Bug bug(BugModel bugModel) {
         try {
             return core.parseBug(bugModel);
         } catch (Exception e) {
-            throw new ParserException("failed to parse bug " + bugModel.id, e);
+            throw new ParserException("failed to project bug " + bugModel.id, e);
         }
     }
 
-    public Project parse(ProjectModel projectModel) {
+    public Project project(ProjectModel projectModel) {
         try {
             return core.parseProject(projectModel);
         } catch (Exception e) {
-            throw new ParserException("failed to parse project " + projectModel.id, e);
+            throw new ParserException("failed to project project " + projectModel.id, e);
         }
     }
 

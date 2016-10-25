@@ -46,6 +46,36 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
         presenter.onCreate();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
+
     private void setPresenter() {
         DependencyContainer container = new DependencyContainer();
         Navigator navigator = new ActivityNavigator(this);

@@ -21,7 +21,32 @@ public abstract class BasePresenter<Ui extends BaseUi> {
         this.navigator = navigator;
     }
 
+    void destroy() {
+        onDestroy();
+        ui = null;
+    }
+
     public void onCreate() {
+        // empty by default
+    }
+
+    public void onStart() {
+        // empty by default
+    }
+
+    public void onResume() {
+        // empty by default
+    }
+
+    public void onPause() {
+        // empty by default
+    }
+
+    public void onStop() {
+        // empty by default
+    }
+
+    public void onDestroy() {
         // empty by default
     }
 

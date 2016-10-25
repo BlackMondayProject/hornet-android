@@ -4,6 +4,7 @@ import java.util.List;
 
 import pl.blackmonday.hornet.api.IServer;
 import pl.blackmonday.hornet.domain.api.parsing.DataParser;
+import pl.blackmonday.hornet.domain.api.sorting.DataSorter;
 import pl.blackmonday.hornet.model.bug.Bug;
 import pl.blackmonday.hornet.model.project.Project;
 import rx.Observable;
@@ -16,11 +17,13 @@ import rx.Observable;
 public class Api implements IApi {
 
     private IServer server;
-    private DataParser parser;
+    private DataParser parse;
+    private DataSorter sort;
 
     public Api(IServer server) {
         this.server = server;
-        this.parser = new DataParser();
+        this.parse = new DataParser();
+        this.sort = new DataSorter();
     }
 
     //==============================================================================================
@@ -36,9 +39,8 @@ public class Api implements IApi {
     public Observable<List<Bug>> getBugs(long projectId) {
         return server.getBugs(projectId)
                 .flatMap(Observable::from)
-                .map(bugModel -> parser.parse(bugModel))
-                .sorted((bug1, bug2) ->
-                        bug2.getCreationDate().compareTo(bug1.getCreationDate()))
+                .map(parse::bug)
+                .sorted(sort::byCreationDate)
                 .toList();
     }
 
@@ -51,14 +53,14 @@ public class Api implements IApi {
     public Observable<List<Project>> getProjects() {
         return server.getProjects()
                 .flatMap(Observable::from)
-                .map(projectModel -> parser.parse(projectModel))
+                .map(parse::project)
                 .toList();
     }
 
     @Override
     public Observable<Project> getProject(long projectId) {
         return server.getProject(projectId)
-                .map(projectModel -> parser.parse(projectModel));
+                .map(parse::project);
     }
 
 }

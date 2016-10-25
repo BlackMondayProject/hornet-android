@@ -1,4 +1,4 @@
-package pl.blackmonday.hornet.uitest;
+package pl.blackmonday.hornet.androidtest;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
