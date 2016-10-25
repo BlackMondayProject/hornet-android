@@ -2,22 +2,34 @@
     package="pl.blackmonday.hornet">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
+        android:name=".ui.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".ui.App"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.screens.login.LoginActivity">
+        <activity
+            android:name=".ui.screens.splash.SplashActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity android:name=".ui.screens.login.LoginActivity" />
+        <activity android:name=".ui.screens.project.list.ProjectListActivity" />
+        <activity android:name=".ui.screens.project.single.ProjectActivity" />
+        <activity
+            android:name=".ui.screens.bug.BugActivity"
+            android:parentActivityName=".ui.screens.home.HomeActivity" />
+        <activity
+            android:name=".ui.screens.home.HomeActivity"
+            android:launchMode="singleTop" />
 
     </application>
 

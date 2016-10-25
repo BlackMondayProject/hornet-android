@@ -1,10 +1,7 @@
 package pl.blackmonday.hornet.ui.screens.login;
 
-import org.jdeferred.DoneCallback;
-import org.jdeferred.FailCallback;
-
-import pl.blackmonday.hornet.api.client.ApiError;
-import pl.blackmonday.hornet.domain.IApi;
+import pl.blackmonday.hornet.domain.api.IApi;
+import pl.blackmonday.hornet.ui.navigation.Navigator;
 import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
 
 /**
@@ -15,29 +12,20 @@ import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
 public class LoginPresenter
         extends BasePresenter<LoginUi> {
 
-    public LoginPresenter(LoginUi ui, IApi api) {
-        super(ui, api);
+    private LoginInteractor interactor;
+
+    public LoginPresenter(LoginUi ui, Navigator navigator, IApi api) {
+        super(ui, navigator);
+        interactor = new LoginInteractor(this, api);
     }
 
     public void onDoneClicked() {
-        String password = getPassword();
         String login = getLogin();
+        String password = getPassword();
         if (login.isEmpty() || password.isEmpty()) {
             return;
         }
-
-        api.authorize(login, password).done(new DoneCallback<Void>() {
-            @Override
-            public void onDone(Void result) {
-                ui.goToHomeScreen();
-            }
-        }).fail(new FailCallback<ApiError>() {
-            @Override
-            public void onFail(ApiError result) {
-                ui.notifyInvalidCredentials();
-            }
-        });
-
+        authorize(login, password);
     }
 
     private String getLogin() {
@@ -59,4 +47,25 @@ public class LoginPresenter
             return password;
         }
     }
+
+    private void authorize(String login, String password) {
+        ui.showProgress();
+        interactor.authorize(login, password,
+                navigator::goToHomeScreen,
+                this::handleAuthorizationError,
+                ui::hideProgress);
+    }
+
+    private void handleAuthorizationError(Throwable throwable){
+        handleError(throwable, errorCode -> {
+            switch (errorCode) {
+                case 403:
+                    ui.notifyInvalidCredentials();
+                    return true;
+                default:
+                    return false;
+            }
+        });
+    }
+
 }

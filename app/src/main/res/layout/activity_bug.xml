@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:background="@color/colorPrimary"
+        android:id="@+id/vToolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        app:title="HORNET"
+        app:titleTextColor="@color/colorAccent" />
+
+    <LinearLayout
+        android:layout_below="@+id/vToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/activityBug_ivPriority"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/activityBug_tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                tools:text="Bardzo ważny bug one one one Bardzo ważny bug one one one Bardzo ważny bug one one one Bardzo ważny bug one one one Bardzo ważny bug one one one" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Utworzony:" />
+
+            <TextView
+                android:id="@+id/activityBug_tvCreationDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                tools:text="12.04.2032" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activityBug_tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Bardzo ważny bug one one one. Długi opis, nawet bardzo długi trololololo" />
+
+    </LinearLayout>
+
+</RelativeLayout>

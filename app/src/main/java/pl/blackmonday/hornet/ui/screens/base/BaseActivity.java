@@ -1,15 +1,19 @@
 package pl.blackmonday.hornet.ui.screens.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.blackmonday.hornet.Dependencies;
-import pl.blackmonday.hornet.domain.IApi;
+import pl.blackmonday.hornet.R;
+import pl.blackmonday.hornet.domain.api.IApi;
+import pl.blackmonday.hornet.ui.navigation.ActivityNavigator;
+import pl.blackmonday.hornet.ui.navigation.Navigator;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -18,8 +22,12 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 
 public abstract class BaseActivity<Presenter extends BasePresenter>
-        extends Activity
+        extends AppCompatActivity
         implements BaseUi {
+
+    @Nullable
+    @BindView(R.id.vLoader)
+    View vLoader;
 
     protected Presenter presenter;
 
@@ -27,20 +35,21 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
     @Nullable
     protected abstract Integer provideLayoutId();
 
-    @LayoutRes
     @NonNull
-    protected abstract Presenter providePresenter(IApi api);
+    protected abstract Presenter providePresenter(Navigator navigator, IApi api);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setPresenter();
         setLayout();
+        presenter.onCreate();
     }
 
     private void setPresenter() {
-        IApi api = Dependencies.instanceOfApi();
-        presenter = providePresenter(api);
+        DependencyContainer container = new DependencyContainer();
+        Navigator navigator = new ActivityNavigator(this);
+        presenter = providePresenter(navigator, container.api);
     }
 
     private void setLayout() {
@@ -54,6 +63,18 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void showProgress() {
+        assert vLoader != null;
+        vLoader.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        assert vLoader != null;
+        vLoader.setVisibility(View.GONE);
     }
 
 }

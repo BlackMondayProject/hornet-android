@@ -3,4 +3,13 @@
     <color name="colorPrimary">#222222</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FFCF00</color>
+    <color name="separator">#40000000</color>
+    <color name="background">#EEEEEE</color>
+
+    <color name="priority_low">#008800</color>
+    <color name="priority_medium">#DDDD00</color>
+    <color name="priority_high">#DD6600</color>
+    <color name="priority_critical">#FF0000</color>
+    <color name="transparent">#00000000</color>
+    <color name="list_selector">#30808080</color>
 </resources>

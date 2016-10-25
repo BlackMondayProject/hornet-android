@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_item_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/itemBug_ivPriority"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/itemBug_tvId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/itemBug_ivPriority"
+            android:layout_toStartOf="@+id/itemBug_tvCreationDate"
+            tools:text="#11" />
+
+        <TextView
+            android:id="@+id/itemBug_tvCreationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            tools:text="12.01.2016" />
+
+        <TextView
+            android:id="@+id/itemBug_tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/itemBug_tvId"
+            android:layout_below="@+id/itemBug_tvId"
+            android:layout_marginTop="4dp"
+            tools:text="Jakiś tam bug" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/view_separator" />
+
+</LinearLayout>

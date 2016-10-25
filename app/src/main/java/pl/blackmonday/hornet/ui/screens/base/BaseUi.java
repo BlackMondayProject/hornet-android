@@ -6,4 +6,9 @@ package pl.blackmonday.hornet.ui.screens.base;
  */
 
 public interface BaseUi {
+
+    void showProgress();
+
+    void hideProgress();
+
 }

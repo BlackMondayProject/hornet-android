@@ -24,8 +24,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  * Senfino 2016
  */
 
-@RunWith(AndroidJUnit4.class)
 @LargeTest
+@RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
     @Rule

@@ -7,5 +7,4 @@ package pl.blackmonday.hornet;
 
 public class Config {
 
-    public static final String MAIN_SERVER_URL = "https://private-7936d-hornet1.apiary-mock.com";
 }

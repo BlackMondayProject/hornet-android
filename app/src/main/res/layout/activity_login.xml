@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/colorAccent"
-        app:title="HORNET" />
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <EditText
         android:id="@+id/activityLogin_etLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/activityLogin_loginHint" />
+        android:layout_margin="8dp"
+        android:hint="@string/activityLogin_loginHint"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/activityLogin_etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:hint="@string/activityLogin_passwordHint"
         android:inputType="textPassword" />
 
@@ -29,6 +25,7 @@
         android:id="@+id/activityLogin_btnDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:text="@string/activityLogin_done" />
 
 </LinearLayout>

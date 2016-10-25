@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class ProjectBuilder {
 
-    private Project project;
+    private final Project project;
 
     public ProjectBuilder(){
         project = new Project();

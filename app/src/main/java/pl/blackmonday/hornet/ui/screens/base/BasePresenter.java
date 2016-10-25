@@ -1,14 +1,10 @@
 package pl.blackmonday.hornet.ui.screens.base;
 
-import org.jdeferred.DoneCallback;
-import org.jdeferred.DonePipe;
-import org.jdeferred.FailCallback;
-import org.jdeferred.FailPipe;
-import org.jdeferred.Promise;
+import android.util.Log;
 
-import pl.blackmonday.hornet.api.client.ApiError;
-import pl.blackmonday.hornet.common.Promises;
-import pl.blackmonday.hornet.domain.IApi;
+import pl.blackmonday.hornet.domain.api.parsing.ParserException;
+import pl.blackmonday.hornet.ui.navigation.Navigator;
+import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Created by Marcin Laskowski on 19.06.16.
@@ -18,74 +14,45 @@ import pl.blackmonday.hornet.domain.IApi;
 public abstract class BasePresenter<Ui extends BaseUi> {
 
     protected Ui ui;
-    protected IApi api;
+    protected Navigator navigator;
 
-    public BasePresenter(Ui ui, IApi api){
+    public BasePresenter(Ui ui, Navigator navigator){
         this.ui = ui;
-        this.api = api;
+        this.navigator = navigator;
     }
 
-    protected abstract class SafeDoneCallback<D> implements DoneCallback<D>{
+    public void onCreate() {
+        // empty by default
+    }
 
-        @Override
-        public void onDone(D result) {
-            if (ui != null){
-                onSafeDone(result);
-            }
+    public boolean isDestroyed() {
+        return ui == null;
+    }
+
+    protected void handleError(Throwable e) {
+        handleKnownErrors(e);
+    }
+
+    protected void handleError(Throwable e, ErrorHandler handler) {
+        if (e instanceof HttpException){
+            HttpException exception = (HttpException) e;
+            boolean isHandled = handler.handle(exception.code());
+            if (isHandled) return;
         }
-
-        public abstract void onSafeDone(D result);
-
+        handleKnownErrors(e);
     }
 
-    protected abstract class SafeFailCallback<F> implements FailCallback<F> {
-
-        @Override
-        public void onFail(F result) {
-            if (ui != null){
-                onSafeFail(result);
-            }
+    private void handleKnownErrors(Throwable e) {
+        if (e instanceof ParserException){
+            Log.e("ERROR", "PARSER", e);
+        } else {
+            Log.e("ERROR", e.getMessage());
         }
-
-        public abstract void onSafeFail(F result);
-
     }
 
-    protected SafeFailCallback<ApiError> defaultFail(){
-        return new SafeFailCallback<ApiError>() {
-            @Override
-            public void onSafeFail(ApiError result) {
-                defaultFail(result);
-            }
-        };
-    }
+    protected interface ErrorHandler{
 
-    protected void defaultFail(ApiError apiError){
-
-    }
-
-    protected <D, F, P> Promise<D, F, P> load(Promise<D, F, P> promise){
-        showProgress();
-        return promise.then(new DonePipe<D, D, F, P>() {
-            @Override
-            public Promise<D, F, P> pipeDone(D result) {
-                if (ui != null) hideProgress();
-                return Promises.success(result);
-            }
-        }, new FailPipe<F, D, F, P>() {
-            @Override
-            public Promise<D, F, P> pipeFail(F result) {
-                if (ui != null) hideProgress();
-                return Promises.fail(result);
-            }
-        });
-    }
-
-    private void showProgress(){
-
-    }
-
-    private void hideProgress(){
+        boolean handle(int errorCode);
 
     }
 

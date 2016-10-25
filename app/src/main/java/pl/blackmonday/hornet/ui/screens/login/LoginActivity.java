@@ -1,14 +1,17 @@
 package pl.blackmonday.hornet.ui.screens.login;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import pl.blackmonday.hornet.R;
-import pl.blackmonday.hornet.domain.IApi;
+import pl.blackmonday.hornet.domain.api.IApi;
+import pl.blackmonday.hornet.ui.navigation.Navigator;
 import pl.blackmonday.hornet.ui.screens.base.BaseActivity;
 
 /**
@@ -33,18 +36,29 @@ public class LoginActivity
 
     @NonNull
     @Override
-    protected LoginPresenter providePresenter(IApi api) {
-        return new LoginPresenter(this, api);
+    protected LoginPresenter providePresenter(Navigator navigator, IApi api) {
+        return new LoginPresenter(this, navigator, api);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setDoneAction();
+    }
+
+    private void setDoneAction() {
+        etPassword.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onDoneClicked();
+                return true;
+            }
+            return false;
+        });
     }
 
     @OnClick(R.id.activityLogin_btnDone)
     void onDoneClicked(){
         presenter.onDoneClicked();
-    }
-
-    @Override
-    public void goToHomeScreen() {
-        Toast.makeText(this, "SUKCES!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
