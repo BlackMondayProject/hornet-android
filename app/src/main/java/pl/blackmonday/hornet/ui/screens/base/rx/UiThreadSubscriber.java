@@ -4,6 +4,7 @@ import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by Marcin Laskowski on 25.10.16.
@@ -26,56 +27,36 @@ public class UiThreadSubscriber<T> extends Subscriber<T> {
     }
 
     @Override
-    public void onCompleted() {
-        // not used
+    public void onNext(T t) {
+        subscribeToUi(aVoid -> {
+            done.onDone(t);
+            always.always();
+        });
     }
 
     @Override
     public void onError(Throwable t) {
-        checkFlag();
-        if (presenter.isDestroyed()) return;
-        Observable.error(t)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        this::nothing,
-                        e -> {
-                            raiseFlag();
-                            error.onError(e);
-                            always.always();
-                        },
-                        this::nothing
-                );
+        subscribeToUi(aVoid -> {
+            error.onError(t);
+            always.always();
+        });
     }
 
     @Override
-    public void onNext(T t) {
-        checkFlag();
-        if (presenter.isDestroyed()) return;
-        Observable.just(t)
+    public void onCompleted() {
+        // not used
+    }
+
+    private void subscribeToUi(Action1<Object> action) {
+        Observable.just(null)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        action ->{
-                            raiseFlag();
-                            done.onDone(t);
-                        },
-                        this::nothing,
-                        always::always);
+                .doOnNext(aVoid -> checkFlag())
+                .skipWhile(aVoid -> presenter.isDestroyed())
+                .subscribe(action);
     }
 
-
-    private void nothing() {
-        //nothing
-    }
-
-    private void nothing(Object o) {
-        //nothing
-    }
-
-    private void checkFlag(){
+    private void checkFlag() {
         if (oneUseFlag) throw new IllegalStateException("This object can be used only once");
-    }
-
-    private void raiseFlag(){
         oneUseFlag = true;
     }
 

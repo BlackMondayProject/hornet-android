@@ -22,10 +22,10 @@ public class UiThreadAction<T> implements Action1<T> {
 
     @Override
     public void call(T t) {
-        if (presenter.isDestroyed()) return;
-        Observable.just(1)
+        Observable.just(null)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(something -> callback.onDone(t));
+                .skipWhile(aVoid -> presenter.isDestroyed())
+                .subscribe(aVoid -> callback.onDone(t));
     }
 
 }

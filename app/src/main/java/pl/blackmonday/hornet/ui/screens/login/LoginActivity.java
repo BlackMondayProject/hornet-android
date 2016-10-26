@@ -23,10 +23,18 @@ public class LoginActivity
         extends BaseActivity<LoginPresenter>
         implements LoginUi {
 
+    //==============================================================================================
+    // VIEWS
+    //==============================================================================================
+
     @BindView(R.id.activityLogin_etLogin)
     EditText etLogin;
     @BindView(R.id.activityLogin_etPassword)
     EditText etPassword;
+
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
 
     @Nullable
     @Override
@@ -40,26 +48,28 @@ public class LoginActivity
         return new LoginPresenter(this, navigator, api);
     }
 
+    //==============================================================================================
+    // LIFECYCLE
+    //==============================================================================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setDoneAction();
     }
 
-    private void setDoneAction() {
-        etPassword.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                onDoneClicked();
-                return true;
-            }
-            return false;
-        });
-    }
+    //==============================================================================================
+    // LISTENERS
+    //==============================================================================================
 
     @OnClick(R.id.activityLogin_btnDone)
-    void onDoneClicked(){
+    void onDoneClicked() {
         presenter.onDoneClicked();
     }
+
+    //==============================================================================================
+    // UI IMPLEMENTATION
+    //==============================================================================================
 
     @Override
     public String getLogin() {
@@ -85,4 +95,19 @@ public class LoginActivity
     public void notifyInvalidCredentials() {
         Toast.makeText(this, "Zły login lub hasło", Toast.LENGTH_SHORT).show();
     }
+
+    //==============================================================================================
+    // PRIVATE METHODS
+    //==============================================================================================
+
+    private void setDoneAction() {
+        etPassword.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onDoneClicked();
+                return true;
+            }
+            return false;
+        });
+    }
+
 }

@@ -10,6 +10,8 @@ import pl.blackmonday.hornet.model.bug.Bug;
 
 public interface Navigator {
 
+    void navigateUp();
+
     void goToLoginScreen();
 
     void goToHomeScreen();
@@ -17,6 +19,5 @@ public interface Navigator {
     void goToBugScreen(Bug bug);
 
     Bug getBug();
-
 
 }

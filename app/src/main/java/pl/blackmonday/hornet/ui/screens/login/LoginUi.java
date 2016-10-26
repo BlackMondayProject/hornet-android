@@ -8,9 +8,15 @@ import pl.blackmonday.hornet.ui.screens.base.BaseUi;
  */
 
 public interface LoginUi extends BaseUi {
+
     String getLogin();
+
     String getPassword();
+
     void notifyNoLogin();
+
     void notifyNoPassword();
+
     void notifyInvalidCredentials();
+
 }

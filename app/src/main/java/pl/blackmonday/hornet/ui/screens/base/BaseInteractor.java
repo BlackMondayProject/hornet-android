@@ -25,12 +25,16 @@ public class BaseInteractor<Presenter extends BasePresenter> {
         this.api = api;
     }
 
+    //==============================================================================================
+    // UI HANDLERS
+    //==============================================================================================
+
     protected  <T> Subscriber<T> onUi(DoneCallback<T> done, ErrorCallback error, AlwaysCallback always) {
         return new UiThreadSubscriber<>(presenter, done, error, always);
     }
 
-    protected Subscriber<Void> onUi(EmptyDoneCallback done, ErrorCallback error, AlwaysCallback always) {
-        DoneCallback<Void> emptyDone = aVoid -> done.onDone();
+    protected <T> Subscriber<T> onUi(EmptyDoneCallback done, ErrorCallback error, AlwaysCallback always) {
+        DoneCallback<T> emptyDone = t -> done.onDone();
         return onUi(emptyDone, error, always);
     }
 

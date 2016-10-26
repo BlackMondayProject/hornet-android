@@ -25,9 +25,17 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
         extends AppCompatActivity
         implements BaseUi {
 
+    //==============================================================================================
+    // VIEWS
+    //==============================================================================================
+
     @Nullable
     @BindView(R.id.vLoader)
     View vLoader;
+
+    //==============================================================================================
+    // FIELDS
+    //==============================================================================================
 
     protected Presenter presenter;
 
@@ -37,6 +45,10 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
 
     @NonNull
     protected abstract Presenter providePresenter(Navigator navigator, IApi api);
+
+    //==============================================================================================
+    // LIFECYCLE
+    //==============================================================================================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +85,44 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.destroy();
+        presenter.onDestroy();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (!presenter.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    //==============================================================================================
+    // CALLIGRAPHY BINDING
+    //==============================================================================================
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    //==============================================================================================
+    // BASE UI IMPLEMENTATION
+    //==============================================================================================
+
+    @Override
+    public void showProgress() {
+        assert vLoader != null;
+        vLoader.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        assert vLoader != null;
+        vLoader.setVisibility(View.GONE);
+    }
+
+    //==============================================================================================
+    // PRIVATE METHODS
+    //==============================================================================================
 
     private void setPresenter() {
         DependencyContainer container = new DependencyContainer();
@@ -88,23 +136,6 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
             setContentView(layoutId);
             ButterKnife.bind(this);
         }
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    public void showProgress() {
-        assert vLoader != null;
-        vLoader.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        assert vLoader != null;
-        vLoader.setVisibility(View.GONE);
     }
 
 }

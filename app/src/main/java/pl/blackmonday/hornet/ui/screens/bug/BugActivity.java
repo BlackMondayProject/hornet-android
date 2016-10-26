@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,10 @@ public class BugActivity
         extends BaseActivity<BugPresenter>
         implements BugUi {
 
+    //==============================================================================================
+    // VIEWS
+    //==============================================================================================
+
     @BindView(R.id.vToolbar)
     Toolbar vToolbar;
     @BindView(R.id.activityBug_ivPriority)
@@ -38,6 +43,10 @@ public class BugActivity
     TextView tvCreationDate;
     @BindView(R.id.activityBug_tvDescription)
     TextView tvDescription;
+
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
 
     @Nullable
     @Override
@@ -51,16 +60,27 @@ public class BugActivity
         return new BugPresenter(this, navigator);
     }
 
+    //==============================================================================================
+    // LIFECYCLE
+    //==============================================================================================
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setToolbar();
+        setUpToolbar();
     }
 
-    private void setToolbar() {
-        vToolbar.setNavigationIcon(R.drawable.ic_back);
-        vToolbar.setNavigationOnClickListener(v -> onNavigateUp());
+    //==============================================================================================
+    // LISTENERS
+    //==============================================================================================
+
+    public void onUpClicked(View v){
+        presenter.onUpClicked();
     }
+
+    //==============================================================================================
+    // UI IMPLEMENTATION
+    //==============================================================================================
 
     @Override
     public void setBugId(long id) {
@@ -86,6 +106,15 @@ public class BugActivity
     @Override
     public void setBugDescription(String description) {
         tvDescription.setText(description);
+    }
+
+    //==============================================================================================
+    // PRIVATE METHODS
+    //==============================================================================================
+
+    private void setUpToolbar() {
+        vToolbar.setNavigationIcon(R.drawable.ic_back);
+        vToolbar.setNavigationOnClickListener(this::onUpClicked);
     }
 
 }

@@ -16,11 +16,14 @@ import pl.blackmonday.hornet.model.project.Project;
 
 public class ProjectAdapter extends FlexibleAdapter<AbstractFlexibleItem>{
 
-    public ProjectAdapter() {
+    private ProjectItem.OnClickListener listener;
+
+    public ProjectAdapter(ProjectItem.OnClickListener listener) {
         super(Collections.emptyList());
+        this.listener = listener;
     }
 
-    public void updateData(List<Project> projects, ProjectItem.OnClickListener listener){
+    public void updateData(List<Project> projects){
         List<AbstractFlexibleItem> projectItems = new ArrayList<>();
         for (Project project : projects){
             projectItems.add(new ProjectItem(project, listener));

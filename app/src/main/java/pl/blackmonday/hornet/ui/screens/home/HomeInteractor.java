@@ -23,19 +23,29 @@ public class HomeInteractor extends BaseInteractor<HomePresenter> {
         super(presenter, api);
     }
 
-    public void syncData(DoneCallback<List<Bug>> done, ErrorCallback error, AlwaysCallback always) {
-        api.getProjects()
-                .doOnNext(onUi(presenter::setProjects))
-                .map(projects -> projects.get(0))
-                .doOnNext(onUi(presenter::setSelectedProject))
-                .flatMap(project -> api.getBugs(project.getId()))
+    //==============================================================================================
+    // PUBLIC METHODS
+    //==============================================================================================
+
+    public void syncAllProjects(DoneCallback<List<Bug>> done, ErrorCallback error, AlwaysCallback always) {
+        syncSelectedProject()
+                .compose(getBugsFromProject())
                 .subscribe(onUi(done, error, always));
     }
 
-    public void getBugs(DoneCallback<List<Bug>> done, ErrorCallback error, AlwaysCallback always) {
-        getSelectedProject()
-                .flatMap(project -> api.getBugs(project.getId()))
+    public void syncProject(Project selectedProject, DoneCallback<List<Bug>> done, ErrorCallback error, AlwaysCallback always) {
+        Observable.just(selectedProject)
+                .compose(getBugsFromProject())
                 .subscribe(onUi(done, error, always));
+    }
+
+    //==============================================================================================
+    // PRIVATE METHODS
+    //==============================================================================================
+
+    private Observable<Project> syncSelectedProject() {
+        return getSelectedProject()
+                .doOnNext(onUi(presenter::setSelectedProject));
     }
 
     private Observable<Project> getSelectedProject() {
@@ -43,9 +53,19 @@ public class HomeInteractor extends BaseInteractor<HomePresenter> {
         if (project != null) {
             return Observable.just(project);
         } else {
-            return api.getProjects()
+            return syncAllProjects()
                     .map(projects -> projects.get(0));
         }
+    }
+
+    private Observable<List<Project>> syncAllProjects() {
+        return api.getProjects()
+                .doOnNext(onUi(presenter::setProjects));
+    }
+
+    private Observable.Transformer<Project, List<Bug>> getBugsFromProject() {
+        return observable -> observable.map(Project::getId)
+                .flatMap(api::getBugs);
     }
 
 }

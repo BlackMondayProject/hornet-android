@@ -20,4 +20,10 @@ public interface HomeUi extends BaseUi {
     void onBugsAcquired(List<Bug> bugs);
 
     void hideSwipe();
+
+    void openDrawer();
+
+    void closeDrawer();
+
+    boolean isDrawerOpen();
 }

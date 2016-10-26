@@ -16,11 +16,14 @@ import pl.blackmonday.hornet.model.bug.Bug;
 
 public class BugAdapter extends FlexibleAdapter<AbstractFlexibleItem>{
 
-    public BugAdapter() {
+    private BugItem.OnClickListener listener;
+
+    public BugAdapter(BugItem.OnClickListener listener) {
         super(Collections.emptyList());
+        this.listener = listener;
     }
 
-    public void updateData(List<Bug> bugs, BugItem.OnClickListener listener){
+    public void updateData(List<Bug> bugs){
         List<AbstractFlexibleItem> bugItems = new ArrayList<>();
         for (Bug bug : bugs){
             bugItems.add(new BugItem(bug, listener));

@@ -17,9 +17,9 @@ public class LoginInteractor extends BaseInteractor<LoginPresenter> {
         super(presenter, api);
     }
 
-    public void authorize(String login, String password, EmptyDoneCallback done, ErrorCallback error, AlwaysCallback always){
-        api.authorize(login, password)
-                .subscribe(onUi(done, error, always));
+    public void authorize(String login, String password,
+                          EmptyDoneCallback done, ErrorCallback error, AlwaysCallback always) {
+        api.authorize(login, password).subscribe(onUi(done, error, always));
     }
 
 }

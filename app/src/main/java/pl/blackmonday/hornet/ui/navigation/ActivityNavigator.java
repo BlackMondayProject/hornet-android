@@ -16,13 +16,30 @@ import pl.blackmonday.hornet.ui.screens.login.LoginActivity;
 
 public class ActivityNavigator implements Navigator {
 
-    private static final String KEY_BUG = "bug";
-
     private final Activity activity;
 
     public ActivityNavigator(Activity activity){
         this.activity = activity;
     }
+
+    //==============================================================================================
+    // KEYS
+    //==============================================================================================
+
+    private static final String KEY_BUG = "bug";
+
+    //==============================================================================================
+    // ACTIVITY NAVIGATION
+    //==============================================================================================
+
+    //-COMMON---------------------------------------------------------------------------------------
+
+    @Override
+    public void navigateUp() {
+        this.activity.onNavigateUp();
+    }
+
+    //-LOGIN-ACTIVITY-------------------------------------------------------------------------------
 
     @Override
     public void goToLoginScreen() {
@@ -30,11 +47,15 @@ public class ActivityNavigator implements Navigator {
         activity.startActivity(intent);
     }
 
+    //-HOME-ACTIVITY--------------------------------------------------------------------------------
+
     @Override
     public void goToHomeScreen() {
         Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
     }
+
+    //-BUG-ACTIVITY---------------------------------------------------------------------------------
 
     @Override
     public void goToBugScreen(Bug bug) {

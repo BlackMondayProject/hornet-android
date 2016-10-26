@@ -17,6 +17,10 @@ public class SplashActivity
         extends BaseActivity<SplashPresenter>
         implements SplashUi {
 
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
+
     @Nullable
     @Override
     protected Integer provideLayoutId() {

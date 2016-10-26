@@ -16,26 +16,44 @@ import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
 public class HomePresenter
         extends BasePresenter<HomeUi> {
 
+    //==============================================================================================
+    // FIELDS
+    //==============================================================================================
+
     private HomeInteractor interactor;
     private Project selectedProject = null;
+
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
 
     public HomePresenter(HomeUi ui, Navigator navigator, IApi api) {
         super(ui, navigator);
         interactor = new HomeInteractor(this, api);
     }
 
+    //==============================================================================================
+    // LIFECYCLE
+    //==============================================================================================
+
     @Override
     public void onCreate() {
         super.onCreate();
-        syncData();
+        syncProjects();
     }
 
-    private void syncData() {
-        ui.showProgress();
-        interactor.syncData(
-                this::setBugs,
-                this::handleError,
-                ui::hideProgress);
+    @Override
+    public void onUpClicked() {
+        ui.openDrawer();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (ui.isDrawerOpen()) {
+            ui.closeDrawer();
+            return true;
+        }
+        return false;
     }
 
     //==============================================================================================
@@ -43,12 +61,9 @@ public class HomePresenter
     //==============================================================================================
 
     public void onProjectClicked(Project project) {
+        ui.closeDrawer();
         setSelectedProject(project);
-        ui.showProgress();
-        interactor.getBugs(
-                this::setBugs,
-                this::handleError,
-                ui::hideProgress);
+        syncBugsBlocking();
     }
 
     public void onBugClicked(Bug bug) {
@@ -56,10 +71,7 @@ public class HomePresenter
     }
 
     public void onSwipePulled() {
-        interactor.getBugs(
-                this::setBugs,
-                this::handleError,
-                ui::hideSwipe);
+        syncBugsNonBlocking();
     }
 
     //==============================================================================================
@@ -81,6 +93,33 @@ public class HomePresenter
 
     public Project getSelectedProject() {
         return selectedProject;
+    }
+
+    //==============================================================================================
+    // PRIVATE METHODS
+    //==============================================================================================
+
+    private void syncProjects() {
+        ui.showProgress();
+        interactor.syncAllProjects(
+                this::setBugs,
+                this::handleError,
+                ui::hideProgress);
+    }
+
+    private void syncBugsBlocking() {
+        ui.showProgress();
+        interactor.syncProject(selectedProject,
+                this::setBugs,
+                this::handleError,
+                ui::hideProgress);
+    }
+
+    private void syncBugsNonBlocking() {
+        interactor.syncProject(selectedProject,
+                this::setBugs,
+                this::handleError,
+                ui::hideSwipe);
     }
 
 }

@@ -17,20 +17,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Senfino 2016
  */
 
-public class App extends Application{
+public class App extends Application {
 
     @SuppressLint("StaticFieldLeak")
     private static Context appContext;
 
-    public static Context context(){
+    public static Context context() {
         return appContext;
     }
-
-    public static AppComponent dependencies(){
-        return component;
-    }
-
-    private static AppComponent component;
 
     @Override
     public void onCreate() {
@@ -39,7 +33,21 @@ public class App extends Application{
         initThirdPartyLibraries();
     }
 
-    private void initThirdPartyLibraries(){
+    //==============================================================================================
+    // DEPENDENCY INJECTION COMPONENT
+    //==============================================================================================
+
+    public static AppComponent dependencies() {
+        return component;
+    }
+
+    private static AppComponent component;
+
+    //==============================================================================================
+    // THIRD PARTY LIBRARIES
+    //==============================================================================================
+
+    private void initThirdPartyLibraries() {
         initDagger();
         initJodaTime();
         initCalligraphy();
@@ -55,7 +63,7 @@ public class App extends Application{
         JodaTimeAndroid.init(this);
     }
 
-    private void initCalligraphy(){
+    private void initCalligraphy() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/makhina.ttf")
                 .setFontAttrId(R.attr.fontPath)

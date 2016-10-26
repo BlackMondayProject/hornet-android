@@ -12,12 +12,24 @@ import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
 public class LoginPresenter
         extends BasePresenter<LoginUi> {
 
+    //==============================================================================================
+    // FIELDS
+    //==============================================================================================
+
     private LoginInteractor interactor;
+
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
 
     public LoginPresenter(LoginUi ui, Navigator navigator, IApi api) {
         super(ui, navigator);
         interactor = new LoginInteractor(this, api);
     }
+
+    //==============================================================================================
+    // METHODS CALLED BY UI
+    //==============================================================================================
 
     public void onDoneClicked() {
         String login = getLogin();
@@ -56,7 +68,7 @@ public class LoginPresenter
                 ui::hideProgress);
     }
 
-    private void handleAuthorizationError(Throwable throwable){
+    private void handleAuthorizationError(Throwable throwable) {
         handleError(throwable, errorCode -> {
             switch (errorCode) {
                 case 403:
