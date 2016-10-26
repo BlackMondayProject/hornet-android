@@ -31,15 +31,6 @@ public class LoginPresenter
     // METHODS CALLED BY UI
     //==============================================================================================
 
-    public void onDoneClicked() {
-        String login = getLogin();
-        String password = getPassword();
-        if (login.isEmpty() || password.isEmpty()) {
-            return;
-        }
-        authorize(login, password);
-    }
-
     private String getLogin() {
         String login = ui.getLogin();
         if (login.isEmpty()) {
@@ -58,6 +49,15 @@ public class LoginPresenter
         } else {
             return password;
         }
+    }
+
+    public void onDoneClicked() {
+        String login = getLogin();
+        String password = getPassword();
+        if (login.isEmpty() || password.isEmpty()) {
+            return;
+        }
+        authorize(login, password);
     }
 
     private void authorize(String login, String password) {

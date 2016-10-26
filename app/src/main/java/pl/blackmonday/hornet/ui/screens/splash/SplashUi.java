@@ -7,6 +7,5 @@ import pl.blackmonday.hornet.ui.screens.base.BaseUi;
  * Senfino 2016
  */
 
-
 public interface SplashUi extends BaseUi {
 }

@@ -13,6 +13,7 @@ import pl.blackmonday.hornet.ui.screens.base.rx.ErrorCallback;
 
 public class LoginInteractor extends BaseInteractor<LoginPresenter> {
 
+
     public LoginInteractor(LoginPresenter presenter, IApi api) {
         super(presenter, api);
     }

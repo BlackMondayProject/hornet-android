@@ -37,7 +37,8 @@ public class BugBuilder {
     }
 
     public BugBuilder setCreationDate(DateTime creationDate) {
-        bug.creationDate = creationDate;
+//        bug.creationDate = creationDate; // FIXME
+        bug.creationDate = creationDate.getMillis();
         return this;
     }
 

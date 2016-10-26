@@ -16,8 +16,6 @@ import rx.Observable;
 
 public interface IServer {
 
-    String URL = "https://private-7936d-hornet1.apiary-mock.com";
-
     @GET("/projects")
     Observable<Void> refreshSession();
 

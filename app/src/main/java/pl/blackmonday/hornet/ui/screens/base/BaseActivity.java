@@ -11,6 +11,7 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.blackmonday.hornet.R;
+import pl.blackmonday.hornet.dependencies.DependencyContainer;
 import pl.blackmonday.hornet.domain.api.IApi;
 import pl.blackmonday.hornet.ui.navigation.ActivityNavigator;
 import pl.blackmonday.hornet.ui.navigation.Navigator;
@@ -39,6 +40,10 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
 
     protected Presenter presenter;
 
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
+
     @LayoutRes
     @Nullable
     protected abstract Integer provideLayoutId();
@@ -53,8 +58,8 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setPresenter();
-        setLayout();
+        createPresenter();
+        setUpLayout();
         presenter.onCreate();
     }
 
@@ -124,13 +129,13 @@ public abstract class BaseActivity<Presenter extends BasePresenter>
     // PRIVATE METHODS
     //==============================================================================================
 
-    private void setPresenter() {
+    private void createPresenter() {
         DependencyContainer container = new DependencyContainer();
         Navigator navigator = new ActivityNavigator(this);
         presenter = providePresenter(navigator, container.api);
     }
 
-    private void setLayout() {
+    private void setUpLayout() {
         Integer layoutId = provideLayoutId();
         if (layoutId != null) {
             setContentView(layoutId);

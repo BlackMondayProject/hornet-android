@@ -2,6 +2,7 @@ package pl.blackmonday.hornet.api.client;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import pl.blackmonday.hornet.api.Config;
 import pl.blackmonday.hornet.api.IServer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -29,16 +30,18 @@ public class RetrofitClient {
     private Retrofit retrofit() {
         return new Retrofit.Builder()
                 .client(okHttpClient())
-                .baseUrl(IServer.URL)
+                .baseUrl(Config.URL)
                 .addCallAdapterFactory(rxAdapterFactory())
                 .addConverterFactory(converterFactory())
                 .build();
     }
 
     private OkHttpClient okHttpClient() {
-        return new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor())
-                .build();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (Config.SHOW_API_LOGS){
+            builder.addInterceptor(loggingInterceptor());
+        }
+        return builder.build();
     }
 
     private Interceptor loggingInterceptor() {

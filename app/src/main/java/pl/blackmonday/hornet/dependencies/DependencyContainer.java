@@ -1,4 +1,4 @@
-package pl.blackmonday.hornet.ui.screens.base;
+package pl.blackmonday.hornet.dependencies;
 
 import javax.inject.Inject;
 
@@ -14,9 +14,9 @@ import pl.blackmonday.hornet.ui.App;
 public class DependencyContainer {
 
     @Inject
-    IApi api;
+    public IApi api;
 
-    DependencyContainer(){
+    public DependencyContainer(){
         App.dependencies().inject(this);
     }
 

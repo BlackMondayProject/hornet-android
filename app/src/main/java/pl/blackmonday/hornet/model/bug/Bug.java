@@ -1,17 +1,15 @@
 package pl.blackmonday.hornet.model.bug;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import org.joda.time.DateTime;
+import org.parceler.Parcel;
 
 /**
  * Created by Marcin Laskowski on 08.09.16.
  * Senfino 2016
  */
 
-
-public class Bug implements Parcelable {
+@Parcel
+public class Bug {
 
     public enum Priority{
         LOW, MEDIUM, HIGH, CRITICAL
@@ -21,7 +19,8 @@ public class Bug implements Parcelable {
     String title;
     String description;
     Priority priority;
-    DateTime creationDate;
+//    DateTime creationDate; // FIXME
+    long creationDate;
 
     Bug() {
     }
@@ -43,7 +42,8 @@ public class Bug implements Parcelable {
     }
 
     public DateTime getCreationDate() {
-        return creationDate;
+//        return creationDate; // FIXME
+        return new DateTime(creationDate);
     }
 
     @Override
@@ -66,44 +66,5 @@ public class Bug implements Parcelable {
     public String toString() {
         return title + " (" + id + ")";
     }
-
-    //==============================================================================================
-    //  PARCELABLE IMPLEMENTATION
-    //==============================================================================================
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.title);
-        dest.writeString(this.description);
-        dest.writeInt(this.priority == null ? -1 : this.priority.ordinal());
-        dest.writeSerializable(this.creationDate);
-    }
-
-    protected Bug(Parcel in) {
-        this.id = in.readLong();
-        this.title = in.readString();
-        this.description = in.readString();
-        int tmpPriority = in.readInt();
-        this.priority = tmpPriority == -1 ? null : Priority.values()[tmpPriority];
-        this.creationDate = (DateTime) in.readSerializable();
-    }
-
-    public static final Parcelable.Creator<Bug> CREATOR = new Parcelable.Creator<Bug>() {
-        @Override
-        public Bug createFromParcel(Parcel source) {
-            return new Bug(source);
-        }
-
-        @Override
-        public Bug[] newArray(int size) {
-            return new Bug[size];
-        }
-    };
 
 }

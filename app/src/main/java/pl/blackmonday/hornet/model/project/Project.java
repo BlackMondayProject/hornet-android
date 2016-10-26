@@ -1,14 +1,15 @@
 package pl.blackmonday.hornet.model.project;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+
+import org.parceler.Parcel;
 
 /**
  * Created by Marcin Laskowski on 25.06.16.
  * Senfino 2016
  */
 
-public class Project implements Parcelable {
+@Parcel
+public class Project {
 
     long id;
     String name;
@@ -44,37 +45,5 @@ public class Project implements Parcelable {
     public String toString() {
         return name + " (" + id + ")";
     }
-
-    //==============================================================================================
-    //  PARCELABLE IMPLEMENTATION
-    //==============================================================================================
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.name);
-    }
-
-    protected Project(Parcel in) {
-        this.id = in.readLong();
-        this.name = in.readString();
-    }
-
-    public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
-        @Override
-        public Project createFromParcel(Parcel source) {
-            return new Project(source);
-        }
-
-        @Override
-        public Project[] newArray(int size) {
-            return new Project[size];
-        }
-    };
 
 }

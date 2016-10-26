@@ -79,10 +79,10 @@ public class HomeActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setToolbar();
-        setProjectRecyclerView();
-        setBugRecyclerView();
-        setSwipeToRefresh();
+        setUpToolbar();
+        setUpProjectRecyclerView();
+        setUpBugRecyclerView();
+        setUpSwipe();
     }
 
     //==============================================================================================
@@ -148,24 +148,24 @@ public class HomeActivity
     // PRIVATE METHODS
     //==============================================================================================
 
-    private void setToolbar() {
+    private void setUpToolbar() {
         vToolbar.setNavigationIcon(R.mipmap.ic_launcher);
         vToolbar.setNavigationOnClickListener(this::onUpClicked);
     }
 
-    private void setProjectRecyclerView() {
+    private void setUpProjectRecyclerView() {
         projectAdapter = new ProjectAdapter(this::onProjectClicked);
         rvProjects.setLayoutManager(new LinearLayoutManager(this, VERTICAL, false));
         rvProjects.setAdapter(projectAdapter);
     }
 
-    private void setBugRecyclerView() {
+    private void setUpBugRecyclerView() {
         bugAdapter = new BugAdapter(this::onBugClicked);
         rvBugs.setLayoutManager(new LinearLayoutManager(this, VERTICAL, false));
         rvBugs.setAdapter(bugAdapter);
     }
 
-    private void setSwipeToRefresh() {
+    private void setUpSwipe() {
         vSwipe.setProgressBackgroundColorSchemeResource(R.color.colorPrimary);
         vSwipe.setColorSchemeResources(R.color.colorAccent);
         vSwipe.setOnRefreshListener(this::onSwipePulled);

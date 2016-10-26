@@ -2,6 +2,9 @@ package pl.blackmonday.hornet.ui.navigation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
+
+import org.parceler.Parcels;
 
 import pl.blackmonday.hornet.model.bug.Bug;
 import pl.blackmonday.hornet.ui.screens.bug.BugActivity;
@@ -13,12 +16,14 @@ import pl.blackmonday.hornet.ui.screens.login.LoginActivity;
  * Senfino 2016
  */
 
-
+//@ParcelClass( // FIXME
+//        value = DateTime.class,
+//        annotation = @Parcel(converter = JodaDateTimeConverter.class))
 public class ActivityNavigator implements Navigator {
 
     private final Activity activity;
 
-    public ActivityNavigator(Activity activity){
+    public ActivityNavigator(Activity activity) {
         this.activity = activity;
     }
 
@@ -60,13 +65,14 @@ public class ActivityNavigator implements Navigator {
     @Override
     public void goToBugScreen(Bug bug) {
         Intent intent = new Intent(activity, BugActivity.class);
-        intent.putExtra(KEY_BUG, bug);
+        intent.putExtra(KEY_BUG, Parcels.wrap(bug));
         activity.startActivity(intent);
     }
 
     @Override
-    public Bug getBug(){
-        return activity.getIntent().getParcelableExtra(KEY_BUG);
+    public Bug getBug() {
+        Parcelable bug = activity.getIntent().getParcelableExtra(KEY_BUG);
+        return Parcels.unwrap(bug);
     }
 
 }

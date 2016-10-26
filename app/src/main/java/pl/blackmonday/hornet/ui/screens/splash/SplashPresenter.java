@@ -8,9 +8,12 @@ import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
  * Senfino 2016
  */
 
-
 public class SplashPresenter
         extends BasePresenter<SplashUi> {
+
+    //==============================================================================================
+    // CREATION
+    //==============================================================================================
 
     public SplashPresenter(SplashUi ui, Navigator navigator) {
         super(ui, navigator);

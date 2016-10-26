@@ -3,7 +3,6 @@ package pl.blackmonday.hornet.dependencies;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import pl.blackmonday.hornet.ui.screens.base.DependencyContainer;
 
 /**
  * Created by Marcin Laskowski on 30.09.16.
