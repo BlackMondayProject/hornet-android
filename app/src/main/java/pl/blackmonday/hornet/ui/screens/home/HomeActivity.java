@@ -16,10 +16,10 @@ import java.util.List;
 import butterknife.BindView;
 import pl.blackmonday.hornet.R;
 import pl.blackmonday.hornet.domain.api.IApi;
-import pl.blackmonday.hornet.model.bug.Bug;
-import pl.blackmonday.hornet.model.project.Project;
-import pl.blackmonday.hornet.ui.items.bug.BugAdapter;
-import pl.blackmonday.hornet.ui.items.project.ProjectAdapter;
+import pl.blackmonday.hornet.ui.list.adapter.bug.BugAdapter;
+import pl.blackmonday.hornet.ui.list.adapter.project.ProjectAdapter;
+import pl.blackmonday.hornet.ui.list.data.bug.BugSnapshot;
+import pl.blackmonday.hornet.ui.list.data.project.ProjectSnapshot;
 import pl.blackmonday.hornet.ui.navigation.Navigator;
 import pl.blackmonday.hornet.ui.screens.base.BaseActivity;
 
@@ -89,12 +89,12 @@ public class HomeActivity
     // LISTENERS
     //==============================================================================================
 
-    public void onProjectClicked(Project project) {
-        presenter.onProjectClicked(project);
+    public void onProjectClicked(long projectId) {
+        presenter.onProjectClicked(projectId);
     }
 
-    public void onBugClicked(Bug bug) {
-        presenter.onBugClicked(bug);
+    public void onBugClicked(long bugId) {
+        presenter.onBugClicked(bugId);
     }
 
     public void onSwipePulled() {
@@ -115,12 +115,12 @@ public class HomeActivity
     }
 
     @Override
-    public void onProjectsAcquired(List<Project> projects) {
+    public void onProjectsAcquired(List<ProjectSnapshot> projects) {
         projectAdapter.updateData(projects);
     }
 
     @Override
-    public void onBugsAcquired(List<Bug> bugs) {
+    public void onBugsAcquired(List<BugSnapshot> bugs) {
         bugAdapter.updateData(bugs);
     }
 

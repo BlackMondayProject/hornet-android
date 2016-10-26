@@ -1,10 +1,13 @@
 package pl.blackmonday.hornet.ui.screens.home;
 
+import java.util.Collections;
 import java.util.List;
 
 import pl.blackmonday.hornet.domain.api.IApi;
 import pl.blackmonday.hornet.model.bug.Bug;
 import pl.blackmonday.hornet.model.project.Project;
+import pl.blackmonday.hornet.ui.list.data.bug.BugSnapshot;
+import pl.blackmonday.hornet.ui.list.data.project.ProjectSnapshot;
 import pl.blackmonday.hornet.ui.navigation.Navigator;
 import pl.blackmonday.hornet.ui.screens.base.BasePresenter;
 
@@ -21,6 +24,8 @@ public class HomePresenter
     //==============================================================================================
 
     private HomeInteractor interactor;
+    private List<Project> projects = Collections.emptyList();
+    private List<Bug> bugs = Collections.emptyList();
     private Project selectedProject = null;
 
     //==============================================================================================
@@ -60,14 +65,20 @@ public class HomePresenter
     // METHODS CALLED BY UI
     //==============================================================================================
 
-    public void onProjectClicked(Project project) {
-        ui.closeDrawer();
-        setSelectedProject(project);
-        syncBugsBlocking();
+    public void onProjectClicked(long projectId) {
+        Project project = getProject(projectId);
+        if (project != null) {
+            ui.closeDrawer();
+            setSelectedProject(project);
+            syncBugsBlocking();
+        }
     }
 
-    public void onBugClicked(Bug bug) {
-        navigator.goToBugScreen(bug);
+    public void onBugClicked(long bugId) {
+        Bug bug = getBug(bugId);
+        if (bug != null) {
+            navigator.goToBugScreen(bug);
+        }
     }
 
     public void onSwipePulled() {
@@ -79,7 +90,9 @@ public class HomePresenter
     //==============================================================================================
 
     public void setProjects(List<Project> projects) {
-        ui.onProjectsAcquired(projects);
+        this.projects = projects;
+        List<ProjectSnapshot> snapshots = ProjectSnapshot.from(projects);
+        ui.onProjectsAcquired(snapshots);
     }
 
     public void setSelectedProject(Project project) {
@@ -88,7 +101,9 @@ public class HomePresenter
     }
 
     public void setBugs(List<Bug> bugs) {
-        ui.onBugsAcquired(bugs);
+        this.bugs = bugs;
+        List<BugSnapshot> snapshots = BugSnapshot.from(bugs);
+        ui.onBugsAcquired(snapshots);
     }
 
     public Project getSelectedProject() {
@@ -120,6 +135,24 @@ public class HomePresenter
                 this::setBugs,
                 this::handleError,
                 ui::hideSwipe);
+    }
+
+    private Bug getBug(long bugId) {
+        for (Bug bug : bugs){
+            if (bug.getId() == bugId){
+                return bug;
+            }
+        }
+        return null;
+    }
+
+    private Project getProject(long projectId) {
+        for (Project project : projects){
+            if (project.getId() == projectId){
+                return project;
+            }
+        }
+        return null;
     }
 
 }

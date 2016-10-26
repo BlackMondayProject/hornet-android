@@ -2,8 +2,8 @@ package pl.blackmonday.hornet.ui.screens.home;
 
 import java.util.List;
 
-import pl.blackmonday.hornet.model.bug.Bug;
-import pl.blackmonday.hornet.model.project.Project;
+import pl.blackmonday.hornet.ui.list.data.bug.BugSnapshot;
+import pl.blackmonday.hornet.ui.list.data.project.ProjectSnapshot;
 import pl.blackmonday.hornet.ui.screens.base.BaseUi;
 
 /**
@@ -15,9 +15,9 @@ public interface HomeUi extends BaseUi {
 
     void setSelectedProject(String projectName);
 
-    void onProjectsAcquired(List<Project> projects);
+    void onProjectsAcquired(List<ProjectSnapshot> projects);
 
-    void onBugsAcquired(List<Bug> bugs);
+    void onBugsAcquired(List<BugSnapshot> bugs);
 
     void hideSwipe();
 

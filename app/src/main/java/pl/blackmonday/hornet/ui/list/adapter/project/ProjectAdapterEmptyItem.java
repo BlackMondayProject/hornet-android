@@ -1,4 +1,4 @@
-package pl.blackmonday.hornet.ui.items.bug;
+package pl.blackmonday.hornet.ui.list.adapter.project;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +14,22 @@ import pl.blackmonday.hornet.R;
  * Senfino 2016
  */
 
-public class NoBugsItem extends AbstractFlexibleItem<NoBugsItem.ViewHolder> {
+class ProjectAdapterEmptyItem extends AbstractFlexibleItem<ProjectAdapterEmptyItem.ViewHolder> {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        return o instanceof ProjectAdapterEmptyItem;
     }
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_empty_bug;
+        return R.layout.item_empty_project;
     }
 
     @Override
-    public NoBugsItem.ViewHolder createViewHolder(FlexibleAdapter adapter, LayoutInflater inflater, ViewGroup parent) {
-        return new NoBugsItem.ViewHolder(inflater.inflate(getLayoutRes(), parent, false), adapter);
+    public ProjectAdapterEmptyItem.ViewHolder createViewHolder(FlexibleAdapter adapter, LayoutInflater inflater, ViewGroup parent) {
+        View layout = inflater.inflate(getLayoutRes(), parent, false);
+        return new ProjectAdapterEmptyItem.ViewHolder(layout, adapter);
     }
 
     class ViewHolder extends FlexibleViewHolder {

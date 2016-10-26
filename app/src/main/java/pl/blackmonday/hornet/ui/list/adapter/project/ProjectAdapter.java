@@ -1,4 +1,4 @@
-package pl.blackmonday.hornet.ui.items.project;
+package pl.blackmonday.hornet.ui.list.adapter.project;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,9 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
-import pl.blackmonday.hornet.model.project.Project;
+import pl.blackmonday.hornet.ui.list.data.project.OnProjectClickedListener;
+import pl.blackmonday.hornet.ui.list.data.project.ProjectItem;
+import pl.blackmonday.hornet.ui.list.data.project.ProjectSnapshot;
 
 /**
  * Created by Marcin Laskowski on 19.09.16.
@@ -16,19 +18,19 @@ import pl.blackmonday.hornet.model.project.Project;
 
 public class ProjectAdapter extends FlexibleAdapter<AbstractFlexibleItem>{
 
-    private ProjectItem.OnClickListener listener;
+    private OnProjectClickedListener listener;
 
-    public ProjectAdapter(ProjectItem.OnClickListener listener) {
+    public ProjectAdapter(OnProjectClickedListener listener) {
         super(Collections.emptyList());
         this.listener = listener;
     }
 
-    public void updateData(List<Project> projects){
+    public void updateData(List<ProjectSnapshot> projects){
         List<AbstractFlexibleItem> projectItems = new ArrayList<>();
-        for (Project project : projects){
+        for (ProjectSnapshot project : projects){
             projectItems.add(new ProjectItem(project, listener));
         }
-        if (projectItems.isEmpty()) projectItems.add(new NoProjectsItem());
+        if (projectItems.isEmpty()) projectItems.add(new ProjectAdapterEmptyItem());
 
         updateDataSet(projectItems);
         notifyDataSetChanged();

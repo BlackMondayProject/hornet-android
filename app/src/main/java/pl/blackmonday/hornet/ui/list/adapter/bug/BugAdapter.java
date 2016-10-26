@@ -1,4 +1,4 @@
-package pl.blackmonday.hornet.ui.items.bug;
+package pl.blackmonday.hornet.ui.list.adapter.bug;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,9 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
-import pl.blackmonday.hornet.model.bug.Bug;
+import pl.blackmonday.hornet.ui.list.data.bug.BugItem;
+import pl.blackmonday.hornet.ui.list.data.bug.BugSnapshot;
+import pl.blackmonday.hornet.ui.list.data.bug.OnBugClickedListener;
 
 /**
  * Created by Marcin Laskowski on 19.09.16.
@@ -16,19 +18,19 @@ import pl.blackmonday.hornet.model.bug.Bug;
 
 public class BugAdapter extends FlexibleAdapter<AbstractFlexibleItem>{
 
-    private BugItem.OnClickListener listener;
+    private OnBugClickedListener listener;
 
-    public BugAdapter(BugItem.OnClickListener listener) {
+    public BugAdapter(OnBugClickedListener listener) {
         super(Collections.emptyList());
         this.listener = listener;
     }
 
-    public void updateData(List<Bug> bugs){
+    public void updateData(List<BugSnapshot> bugs){
         List<AbstractFlexibleItem> bugItems = new ArrayList<>();
-        for (Bug bug : bugs){
+        for (BugSnapshot bug : bugs){
             bugItems.add(new BugItem(bug, listener));
         }
-        if (bugItems.isEmpty()) bugItems.add(new NoBugsItem());
+        if (bugItems.isEmpty()) bugItems.add(new BugAdapterEmptyItem());
 
         updateDataSet(bugItems);
         notifyDataSetChanged();
