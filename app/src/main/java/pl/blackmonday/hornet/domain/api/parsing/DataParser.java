@@ -23,7 +23,7 @@ public class DataParser {
         try {
             return core.parseBug(bugModel);
         } catch (Exception e) {
-            throw new ParserException("failed to project bug " + bugModel.id, e);
+            throw new ParserException("failed to parse bug " + bugModel.id, e);
         }
     }
 
@@ -31,7 +31,7 @@ public class DataParser {
         try {
             return core.parseProject(projectModel);
         } catch (Exception e) {
-            throw new ParserException("failed to project project " + projectModel.id, e);
+            throw new ParserException("failed to parse project " + projectModel.id, e);
         }
     }
 

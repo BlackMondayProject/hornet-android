@@ -19,7 +19,8 @@ public class Bug {
     String title;
     String description;
     Priority priority;
-//    DateTime creationDate; // FIXME
+//    @ParcelPropertyConverter(JodaDateTimeConverter.class) // FIXME
+//    DateTime creationDate2;
     long creationDate;
 
     Bug() {

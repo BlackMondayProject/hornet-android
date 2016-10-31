@@ -8,6 +8,6 @@ package pl.blackmonday.hornet.api;
 public class Config {
 
     public static final String URL = "https://private-7936d-hornet1.apiary-mock.com";
-    public static final boolean SHOW_API_LOGS = false;
+    public static final boolean SHOW_API_LOGS = true;
 
 }
